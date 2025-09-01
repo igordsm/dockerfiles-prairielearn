@@ -1,0 +1,8 @@
+* Build
+
+podman build . -t igormontagner/insper-bcc-alg-c:latest
+
+* Test with simple project
+
+podman run --rm -p 8080:8080  -v $PROJECT_FOLDER:/home/coder/project/:Z --label=disable   --privileged  -t igormontagner/insper-bcc-alg-c:latest
+

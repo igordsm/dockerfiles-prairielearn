@@ -10,6 +10,7 @@ ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth", "
 RUN mkdir -p /usr/bin/bak/gcc
 RUN mv /usr/bin/gcc /usr/bin/bak/gcc
 COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
+COPY --chown=root:root asanlog.sh /usr/bin/asanlog
 
 
 USER coder

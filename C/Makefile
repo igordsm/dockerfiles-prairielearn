@@ -1,10 +1,13 @@
 
 src_files := $(wildcard *.c)
 pre_compiled := $(wildcard *.o)
+CC = gcc
+CFLAGS_TEST = -Wall -std=gnu99 -Og -g -fsanitize=address -static-libasan
+TARGET = ./test
 
 test: $(src_files) FORCE
-	gcc -Wall -std=gnu99 -Og -g  $(src_files)  $(pre_compiled) `pkg-config --libs check` -o test
-	./test
+	$(CC) $(CFLAGS_TEST)  $(src_files)  $(pre_compiled) `pkg-config --libs check` -o $(TARGET)
+	$(TARGET)
 
 clean:
 	rm test

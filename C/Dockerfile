@@ -7,7 +7,7 @@ RUN apt install -y gcc valgrind check pkg-config clangd make libsystemd-dev
 
 ENV ENTRYPOINTD="/home/coder/template/entrypoint.d/"
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/coder/project"]
-RUN mkdir -p /usr/bin/bak/gcc
+RUN mkdir -p /usr/bin/bak
 RUN mv /usr/bin/gcc /usr/bin/bak/gcc
 COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
 COPY --chown=root:root asanlog.sh /usr/bin/asanlog

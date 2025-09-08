@@ -12,5 +12,8 @@ mkdir -p "$LOG_DIR"
 RUN_ID=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE_PREFIX="${LOG_DIR}/report_${RUN_ID}.log"
 export ASAN_OPTIONS="log_path=${LOG_FILE_PREFIX}"
+export ASANLOG_ENABLED="true"
 echo "Run ID: $RUN_ID"
 "$@"
+unset ASAN_OPTIONS
+unset ASANLOG_ENABLED

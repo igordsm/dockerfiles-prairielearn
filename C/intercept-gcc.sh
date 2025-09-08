@@ -5,6 +5,8 @@ REAL_GCC=/usr/bin/gcc-13
 
 ASAN_FLAGS="-fsanitize=address -static-libasan"
 
+ENVCHECK_PATH="/opt/asanlog/envcheck.o"
+
 has_asan_flag=0
 
 for arg in "$@"; do
@@ -20,8 +22,8 @@ for arg in "$@"; do
 done
 
 if [ "$has_asan_flag" -eq 2 ]; then
-  exec "$REAL_GCC" "$@"
+  exec "$REAL_GCC" "$@" "$ENVCHECK_PATH"
 else
   echo "Automatically enabling ASAN..."
-  exec "$REAL_GCC" "$@" $ASAN_FLAGS
+  exec "$REAL_GCC" "$@" $ASAN_FLAGS "$ENVCHECK_PATH"
 fi

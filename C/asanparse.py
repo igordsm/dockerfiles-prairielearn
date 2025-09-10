@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
 import re
 import json
 import sys
+import glob
+import os
 
 
 def parse_asan_report(report_text):
@@ -46,21 +49,22 @@ def parse_asan_report(report_text):
 
 
 if __name__ == "__main__":
-    # Check if a file path is provided as an argument
-    if len(sys.argv) > 1:
-        file_path = sys.argv[1]
+    outputs = []
+    file_prefix = os.environ.get("LOG_FILE_WILDCARD")
+    if not file_prefix:
+        print(f"Error: No files provided", file=sys.stderr)
+        sys.exit(1)
+    file_path = glob.glob(file_prefix)
+    for path in file_path:
         try:
-            with open(file_path, "r") as f:
+            with open(path, "r") as f:
                 asan_output = f.read()
+                outputs += asan_output
         except FileNotFoundError:
             print(f"Error: File not found at {file_path}", file=sys.stderr)
             sys.exit(1)
-    else:
-        # Read from standard input if no file is provided
-        asan_output = sys.stdin.read()
 
     # Parse the report and convert to JSON
-    progsnap_data = parse_asan_report(asan_output)
-
-    # Print the final JSON to standard output
-    print(json.dumps(progsnap_data, indent=2))
+    for output in outputs:
+        progsnap_data = parse_asan_report(output)
+        print(json.dumps(progsnap_data, indent=2))

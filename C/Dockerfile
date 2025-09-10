@@ -15,10 +15,13 @@ COPY --chown=root:root envcheck.c /opt/asanlog
 RUN cd /opt/asanlog && gcc -c -o envcheck.o envcheck.c
 RUN chmod -R 755 /opt/asanlog/
 COPY --chown=root:root asanlog.sh /usr/bin/asanlog
+COPY --chown=root:root asanparse.py /usr/bin/asanparse
 
 RUN mkdir -p /usr/bin/bak
 RUN mv /usr/bin/gcc /usr/bin/bak/gcc
 COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
+
+RUN apt update && apt install -y --no-install-recommends python3 python3-pip && rm -rf /var/lib/apt/lists/*
 
 
 USER coder

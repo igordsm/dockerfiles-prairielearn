@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z "$1" ]; then
   echo "Error: You must provide the path to an executable."
@@ -10,10 +10,8 @@ LOG_DIR="/home/coder/.asan_logs"
 mkdir -p "$LOG_DIR"
 
 RUN_ID=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE_PREFIX="${LOG_DIR}/report_${RUN_ID}.log"
-export ASAN_OPTIONS="log_path=${LOG_FILE_PREFIX}"
-export ASANLOG_ENABLED="true"
+export LOG_FILE_PREFIX="${LOG_DIR}/report_${RUN_ID}.log" 
 echo "Run ID: $RUN_ID"
-"$@"
-unset ASAN_OPTIONS
-unset ASANLOG_ENABLED
+ASAN_OPTIONS="log_path=${LOG_FILE_PREFIX}:continue_on_error=1" ASANLOG_ENABLED="true" "$@"
+LOG_FILE_WILDCARD="${LOG_FILE_PREFIX}.*" /usr/bin/asanparse
+unset LOG_FILE_PREFIX

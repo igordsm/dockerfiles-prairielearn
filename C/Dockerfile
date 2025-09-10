@@ -1,4 +1,4 @@
-FROM docker.io/codercom/code-server
+FROM docker.io/codercom/code-server:noble
 
 USER root
 
@@ -7,6 +7,19 @@ RUN apt install -y gcc valgrind check pkg-config clangd make libsystemd-dev
 
 ENV ENTRYPOINTD="/home/coder/template/entrypoint.d/"
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/coder/project"]
+
+# Setup ASAN logger tool
+RUN mkdir -p /opt/asanlog/
+COPY --chown=root:root envcheck.c /opt/asanlog
+# Build GCC constructor which "forces" use of ASAN logger tool
+RUN cd /opt/asanlog && gcc -c -o envcheck.o envcheck.c
+RUN chmod -R 755 /opt/asanlog/
+COPY --chown=root:root asanlog.sh /usr/bin/asanlog
+
+RUN mkdir -p /usr/bin/bak
+RUN mv /usr/bin/gcc /usr/bin/bak/gcc
+COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
+
 
 USER coder
 
@@ -20,7 +33,5 @@ COPY --chown=coder:coder Makefile /home/coder/template
 COPY --chown=coder:coder tasks.json /home/coder/template
 COPY --chown=coder:coder settings.json /home/coder/template
 COPY --chown=coder:coder entrypoint.d/* /home/coder/template/entrypoint.d/
-
-
 
 

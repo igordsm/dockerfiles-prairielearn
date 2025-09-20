@@ -20,7 +20,7 @@ RUN mkdir -p /usr/bin/bak
 RUN mv /usr/bin/gcc /usr/bin/bak/gcc
 COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
 
-RUN apt update && apt install -y --no-install-recommends python3 python3-pip && rm -rf /var/lib/apt/lists/*
+RUN apt install -y --no-install-recommends python3 python3-pip && rm -rf /var/lib/apt/lists/*
 
 
 USER coder

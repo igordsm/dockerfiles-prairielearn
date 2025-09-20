@@ -13,5 +13,3 @@ RUN_ID=$(date +"%Y%m%d_%H%M%S")
 export LOG_FILE_PREFIX="${LOG_DIR}/report_${RUN_ID}.log" 
 echo "Run ID: $RUN_ID"
 ASAN_OPTIONS="log_path=${LOG_FILE_PREFIX}:continue_on_error=1" ASANLOG_ENABLED="true" "$@"
-LOG_FILE_WILDCARD="${LOG_FILE_PREFIX}.*" /usr/bin/asanparse
-unset LOG_FILE_PREFIX

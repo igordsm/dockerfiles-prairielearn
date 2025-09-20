@@ -6,7 +6,6 @@ RUN apt update
 RUN apt install -y gcc valgrind check pkg-config clangd make libsystemd-dev
 
 ENV ENTRYPOINTD="/home/coder/template/entrypoint.d/"
-ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/coder/project"]
 
 # Setup ASAN logger tool
 RUN mkdir -p /opt/asanlog/
@@ -20,7 +19,7 @@ RUN mkdir -p /usr/bin/bak
 RUN mv /usr/bin/gcc /usr/bin/bak/gcc
 COPY --chown=root:root intercept-gcc.sh /usr/bin/gcc
 
-RUN apt install -y --no-install-recommends python3 python3-pip && rm -rf /var/lib/apt/lists/*
+RUN apt install -y --no-install-recommends python3 python3-pip zip && rm -rf /var/lib/apt/lists/*
 
 
 USER coder
@@ -36,4 +35,4 @@ COPY --chown=coder:coder tasks.json /home/coder/template
 COPY --chown=coder:coder settings.json /home/coder/template
 COPY --chown=coder:coder entrypoint.d/* /home/coder/template/entrypoint.d/
 
-
+ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/coder/project"]

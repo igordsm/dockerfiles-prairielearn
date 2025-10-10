@@ -14,5 +14,5 @@ export LOG_FILE_PREFIX="${LOG_DIR}/report_${RUN_ID}.log"
 export TEST_OUTPUT="${LOG_DIR}/tests_${RUN_ID}.log"
 echo "Run ID: $RUN_ID"
 ASAN_OPTIONS="log_path=${LOG_FILE_PREFIX}:continue_on_error=1" ASANLOG_ENABLED="true" "$@" | tee -a "$TEST_OUTPUT"
-rm -f /home/coder/project/asanlogs.zip
-zip -r --junk-paths /home/coder/project/asanlogs.zip /home/coder/.asan_logs > /dev/null 2>&1 || true
+rm -f /home/coder/project/.asanlogs.zip
+zip -r --junk-paths /home/coder/project/.asanlogs.zip /home/coder/.asan_logs > /dev/null 2>&1 || true

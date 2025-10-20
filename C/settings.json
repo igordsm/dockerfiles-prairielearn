@@ -1,3 +1,9 @@
 {
-    "window.autoDetectColorScheme": true
+  "window.autoDetectColorScheme": true,
+  "files.exclude": {
+    ".asanlogs.zip": true
+  },
+  "search.exclude": {
+    ".asanlogs.zip": true
+  }
 }
